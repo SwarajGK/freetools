@@ -16,9 +16,9 @@ function Header() {
                 width="188"
               />
             </a>
-            <a className="doc-search-mobile-cta doc-search-menu-icon" id="doc-menu-toggle">
+            {/* <a className="doc-search-mobile-cta doc-search-menu-icon" id="doc-menu-toggle">
               <img alt="Search logo" height="25" src="/images/static/header/ic-search.svg" width="30" />
-            </a>
+            </a> */}
 
             <a
               href=""
