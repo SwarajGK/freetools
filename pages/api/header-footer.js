@@ -5,7 +5,7 @@ export default function handler(req, res) {
     JSON.stringify({
       speedlab: {
         header: {
-          logo: { imageLink: '', link: '/', title: 'BrowserStack' },
+          logo: { image: 'https://d2drbeoe2t10g7.cloudfront.net/development/images/static/header/header-logo.svg', link: '/', title: 'BrowserStack' },
           productName: 'Speedlab',
           mainNav: [
             {
@@ -51,20 +51,19 @@ export default function handler(req, res) {
             },
             {
               label: 'Developers',
-              subMenus: [
-                { label: 'Documentation', link: '' },
-                { label: 'Support', link: '' },
-                { label: 'Status', link: '' },
-                { label: 'Release Notes', link: '' },
-                { label: 'Open Source', link: '' },
-                { label: 'Events', link: '' },
+              subMenu: [
+                { label: 'Documentation', link: '/docs' },
+                { label: 'Support', link: '/support' },
+                { label: 'Status', link: 'https://status.browserstack.com' },
+                { label: 'Release Notes', link: '/release-notes' },
+                { label: 'Open Source', link: '/open-source' },
+                { label: 'Events', link: '/events' },
               ],
             },
             { label: 'Live for Teams', link: '' },
             { label: 'Pricing', link: '' },
             { label: 'Sign in', link: '' },
-            { label: 'FREE TRIAL', type: 'hollow-button', link: '/sign_up' },
-            { type: 'search' },
+            { label: 'FREE TRIAL', type: 'hollow-button', link: '/sign_up' }
           ],
         },
         footer: {

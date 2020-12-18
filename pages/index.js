@@ -1,15 +1,8 @@
-import useSwr from 'swr';
 import Header from '../src/shared/Header';
 import Footer from '../src/shared/Footer';
 import styles from '../styles/Home.module.css';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
-function Home() {
-  const { data, error } = useSwr('/api/header-footer', fetcher);
-
-  if (error) return <div>Failed to load data</div>;
-  if (!data) return <div>Loading...</div>;
+function Home({ data }) {
   const { header, footer } = data.speedlab;
   return (
     <>
@@ -18,6 +11,17 @@ function Home() {
       <Footer data={footer} />
     </>
   );
+}
+
+export async function getStaticProps() {
+  const res = await fetch('http://localhost:3000/api/header-footer');
+  const data = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
 }
 
 export default Home;
