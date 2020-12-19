@@ -1,11 +1,16 @@
 export default function handler(req, res) {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
+  // Have to add absolute url for seo purpose
   res.end(
     JSON.stringify({
       speedlab: {
         header: {
-          logo: { image: 'https://d2drbeoe2t10g7.cloudfront.net/development/images/static/header/header-logo.svg', link: '/', title: 'BrowserStack' },
+          logo: {
+            image: 'https://d2drbeoe2t10g7.cloudfront.net/development/images/static/header/header-logo.svg',
+            link: '/',
+            title: 'BrowserStack',
+          },
           productName: 'Speedlab',
           mainNav: [
             {
@@ -14,18 +19,44 @@ export default function handler(req, res) {
                 website: {
                   label: 'Test your websites',
                   menus: [
-                    { label: 'Live', subLabel: 'interactive cross browser testing', link: '/live', icon: '' },
-                    { label: 'Automate', subLabel: 'Selenium testing at scale', link: '/live', icon: '' },
-                    { label: 'Percy', subLabel: 'Visual testing & review', link: '/live', icon: '' },
+                    {
+                      label: 'Live',
+                      subLabel: 'interactive cross browser testing',
+                      product: 'live',
+                      link: '/live',
+                      icon: '',
+                    },
+                    {
+                      label: 'Automate',
+                      subLabel: 'Selenium testing at scale',
+                      product: 'automate',
+                      link: '/live',
+                      icon: '',
+                    },
+                    {
+                      label: 'Percy',
+                      subLabel: 'Visual testing & review',
+                      product: 'percy',
+                      link: '/live',
+                      icon: '',
+                      isNew: true,
+                    },
                   ],
                 },
                 app: {
                   label: 'Test your mobile apps',
                   menus: [
-                    { label: 'App Live', subLabel: 'Interactive native & hybrid app testing', link: '/live', icon: '' },
+                    {
+                      label: 'App Live',
+                      subLabel: 'Interactive native & hybrid app testing',
+                      product: 'app-live',
+                      link: '/live',
+                      icon: '',
+                    },
                     {
                       label: 'App Automate',
                       subLabel: 'Test automation for native & hybrid mobile apps',
+                      product: 'app-automate',
                       link: '/live',
                       icon: '',
                     },
@@ -53,7 +84,7 @@ export default function handler(req, res) {
               label: 'Developers',
               subMenu: [
                 { label: 'Documentation', link: '/docs' },
-                { label: 'Support', link: '/support' },
+                { label: 'Support', link: '/support', data: { 'data-href': '/support' } },
                 { label: 'Status', link: 'https://status.browserstack.com' },
                 { label: 'Release Notes', link: '/release-notes' },
                 { label: 'Open Source', link: '/open-source' },
@@ -63,7 +94,8 @@ export default function handler(req, res) {
             { label: 'Live for Teams', link: '' },
             { label: 'Pricing', link: '' },
             { label: 'Sign in', link: '' },
-            { label: 'FREE TRIAL', type: 'hollow-button', link: '/sign_up' }
+            { label: 'FREE TRIAL', type: 'hollow-button', link: '/sign_up' },
+            { label: 'Search', type: 'search' },
           ],
         },
         footer: {
@@ -82,7 +114,7 @@ export default function handler(req, res) {
                 {
                   label: 'Percy',
                   link: '/percy',
-                  isNew: true
+                  isNew: true,
                 },
                 {
                   label: 'App Live',
@@ -107,7 +139,7 @@ export default function handler(req, res) {
                 {
                   label: 'SpeedLab',
                   link: '/speedLab',
-                  isNew: true
+                  isNew: true,
                 },
               ],
             },
@@ -153,49 +185,64 @@ export default function handler(req, res) {
           doMore: {
             label: 'Do more with BrowserStack',
             icon: '',
-            links: [{
-              label: 'Test In IE',
-              link: ''
-            }, {
-              label: 'Mobile Emulators',
-              link: ''
-            }, {
-              label: 'Test on iPhone',
-              link: ''
-            }, {
-              label: 'Test on iPad',
-              link: ''
-            }, {
-              label: 'Test on Galaxy',
-              link: ''
-            }, {
-              label: 'Android Testing',
-              link: ''
-            }, {
-              label: 'iOS Testing',
-              link: ''
-            }, {
-              label: 'Guide',
-              link: ''
-            }, {
-              label: 'Cross Browser Testing',
-              link: ''
-            }, {
-              label: 'Emulators &amp; Simulators',
-              link: ''
-            }, {
-              label: 'Selenium',
-              link: ''
-            }, {
-              label: 'Cypress',
-              link: ''
-            }, {
-              label: 'Android Emulators',
-              link: ''
-            }, {
-              label: 'Responsive Design',
-              link: ''
-            }]
+            links: [
+              {
+                label: 'Test In IE',
+                link: '',
+              },
+              {
+                label: 'Mobile Emulators',
+                link: '',
+              },
+              {
+                label: 'Test on iPhone',
+                link: '',
+              },
+              {
+                label: 'Test on iPad',
+                link: '',
+              },
+              {
+                label: 'Test on Galaxy',
+                link: '',
+              },
+              {
+                label: 'Android Testing',
+                link: '',
+              },
+              {
+                label: 'iOS Testing',
+                link: '',
+              },
+              {
+                label: 'Guide',
+                link: '',
+              },
+              {
+                label: 'Cross Browser Testing',
+                link: '',
+              },
+              {
+                label: 'Emulators &amp; Simulators',
+                link: '',
+              },
+              {
+                label: 'Selenium',
+                link: '',
+              },
+              {
+                label: 'Cypress',
+                link: '',
+              },
+              {
+                label: 'Android Emulators',
+                link: '',
+              },
+              {
+                label: 'Responsive Design',
+                link: '',
+              },
+            ],
           },
           bottom: {
             label: '© 2011-2020 BrowserStack - The Most Reliable Mobile App & Cross Browser Testing Company',

@@ -1,6 +1,8 @@
 import React from 'react';
+import ProductSubMenu from './ProductSubMenu';
+import DeveloperSubMenu from './DeveloperSubMenu';
 
-function Header() {
+function Header({ data: header }) {
   return (
     <header className="header-habitat">
       <div className="container">
@@ -42,23 +44,18 @@ function Header() {
               <li className="dropdown-holder clear hide-md hide-lg hide-xl">
                 <a
                   href="#"
-                  className="product-dropdown-toggle  forward"
+                  className="product-dropdown-toggle forward"
                   id="product-menu-toggle-responsive"
                   data-trigger="product-responsive"
                 >
                   Products<span className="account-ahead-caret"></span>
-                  <div className="product-menu-animator">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
+                  <div className="product-menu-animator" />
                 </a>
               </li>
               <li className="dropdown-holder clear hide-md hide-lg hide-xl">
                 <a
                   href="#"
-                  className="product-dropdown-toggle  forward"
+                  className="product-dropdown-toggle forward"
                   id="product-menu-toggle-responsive"
                   data-trigger="developers-responsive"
                 >
@@ -71,7 +68,46 @@ function Header() {
               <li className="hide-md hide-lg hide-xl">
                 <a href="https://local.bsstag.com/pricing?product=live">Pricing</a>
               </li>
-              <li className="dropdown-holder hide-sm hide-xs">
+              {header.mainNav.map(({ label, link, subMenu }) => {
+                if (label === 'Products' || label === 'Developers') {
+                  return (
+                    <li className="dropdown-holder hide-sm hide-xs" key={label}>
+                      <a
+                        href="#"
+                        className="product-dropdown-toggle dropdown-toggle"
+                        id="product-menu-toggle"
+                        data-target={`${label}-menu-dropdown`}
+                      >
+                        {label}
+                        <span className="account-down-caret" />
+                        <div className="product-menu-animator" />
+                      </a>
+                      {label === 'Products' && <ProductSubMenu subMenu={subMenu} />}
+                      {label === 'Developers' && <DeveloperSubMenu subMenu={subMenu} />}
+                    </li>
+                  );
+                } else if (label === 'FREE TRIAL') {
+                  return (
+                    <li className="free-trial-link" key={label}>
+                      <a className="btn-secondary-white btn-md" href="/users/sign_up">
+                        Free Trial
+                      </a>
+                    </li>
+                  );
+                } else if (label === 'Search') {
+                  return (
+                    <li className="no-btn icon-only" key={label}>
+                      <a className="doc-search-cta doc-search-menu-icon" id="doc-menu-toggle"></a>
+                    </li>
+                  );
+                }
+                return (
+                  <li className="hide-sm hide-xs" key={label}>
+                    <a href={link}>{label}</a>
+                  </li>
+                );
+              })}
+              {/* <li className="dropdown-holder hide-sm hide-xs">
                 <a
                   href="#"
                   className="product-dropdown-toggle dropdown-toggle "
@@ -93,7 +129,7 @@ function Header() {
                         <li>
                           <a className="header-dropdown-item" data-product="Live" href="https://local.bsstag.com/live">
                             <svg width="45" height="40" className="product-icon">
-                              {/* <use xlink:href="#live-icon"></use> */}
+                              <use href="#live-icon" />
                             </svg>
                             <div className="dropdown-link-heading">Live</div>
                             <div className="dropdown-link-text">Interactive cross browser testing</div>
@@ -106,7 +142,7 @@ function Header() {
                             href="https://local.bsstag.com/automate"
                           >
                             <svg width="45" height="40" className="product-icon">
-                              {/* <use xlink:href="#automate-icon"></use> */}
+                              <use href="#automate-icon" />
                             </svg>
                             <div className="dropdown-link-heading">Automate</div>
                             <div className="dropdown-link-text">Selenium testing at scale</div>
@@ -115,7 +151,7 @@ function Header() {
                         <li>
                           <a className="header-dropdown-item" data-product="Percy" href="/percy">
                             <svg width="45" height="40" className="product-icon">
-                              {/* <use xlink:href="#percy-icon"></use> */}
+                              <use href="#percy-icon" />
                             </svg>
                             <div className="dropdown-link-heading">
                               Percy
@@ -136,7 +172,7 @@ function Header() {
                             href="https://local.bsstag.com/app-live"
                           >
                             <svg width="45" height="40" className="product-icon">
-                              {/* <use xlink:href="#app-live-icon"></use> */}
+                              <use href="#app-live-icon"></use>
                             </svg>
                             <div className="dropdown-link-heading">App Live</div>
                             <div className="dropdown-link-text">Interactive native &amp; hybrid app testing</div>
@@ -149,7 +185,7 @@ function Header() {
                             href="https://local.bsstag.com/app-automate"
                           >
                             <svg width="45" height="40" className="product-icon">
-                              {/* <use xlink:href="#app-automate-icon"></use> */}
+                              <use href="#app-automate-icon"></use>
                             </svg>
                             <div className="dropdown-link-heading">App Automate</div>
                             <div className="dropdown-link-text">
@@ -254,7 +290,7 @@ function Header() {
               </li>
               <li className="no-btn icon-only">
                 <a className="doc-search-cta doc-search-menu-icon" id="doc-menu-toggle"></a>
-              </li>
+              </li> */}
             </ul>
 
             <ul
