@@ -1,8 +1,28 @@
-import React from 'react';
-import ProductSubMenu from './ProductSubMenu';
-import DeveloperSubMenu from './DeveloperSubMenu';
+import React, { useState } from 'react';
+import DesktopMenu from './DesktopMenu';
+import OpenMenu from '../Icons/OpenMenu';
+import CloseMenu from '../Icons/CloseMenu';
+import { activeTabs } from '../../const';
 
 function Header({ data: header }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeOpenMobileMenu, setActiveOpenMobileMenu] = useState(activeTabs.NONE);
+
+  const onMobileMenuClick = (e) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const onProductMenuClick = (e) => {
+    e.preventDefault();
+    setActiveOpenMobileMenu(activeTabs.PRODUCT);
+  };
+
+  const onDeveloperMenuClick = (e) => {
+    e.preventDefault();
+    setActiveOpenMobileMenu(activeTabs.DEVELOPER);
+  };
+
   return (
     <header className="header-habitat">
       <div className="container">
@@ -18,18 +38,16 @@ function Header({ data: header }) {
                 width="188"
               />
             </a>
-            {/* <a className="doc-search-mobile-cta doc-search-menu-icon" id="doc-menu-toggle">
+            <a className="doc-search-mobile-cta doc-search-menu-icon" id="doc-menu-toggle">
               <img alt="Search logo" height="25" src="/images/static/header/ic-search.svg" width="30" />
-            </a> */}
-
+            </a>
             <a
               href=""
               className="collapse-toggle pull-right bs-collapse-toggle"
               data-target="primary-menu"
-              id="primary-menu-toggle"
+              onClick={onMobileMenuClick}
             >
-              <img alt="Open Menu" height="18" src="/images/static/header/open-menu.svg" width="24" />
-              <img alt="Close Menu" height="18" src="/images/static/header/close-menu.svg" width="18" />
+              {isMobileMenuOpen ? <CloseMenu height={18} width={18} /> : <OpenMenu height={18} width={24} />}
             </a>
             <ul className="horizontal-list product-menu">
               <li className="pull-left">
@@ -40,13 +58,18 @@ function Header({ data: header }) {
             </ul>
           </div>
           <nav className="col-xs-12 col-md-11 col-lg-12 col-xl-12 user--signed-out primary-menu-container  no-pad pull-right">
-            <ul className="pull-right horizontal-list bs-collapse primary-menu" id="primary-menu">
+            <ul
+              className={`pull-right horizontal-list bs-collapse primary-menu ${
+                activeOpenMobileMenu !== activeTabs.NONE ? 'hide' : ''
+              } ${isMobileMenuOpen && activeOpenMobileMenu === activeTabs.NONE ? 'active' : ''}`}
+            >
               <li className="dropdown-holder clear hide-md hide-lg hide-xl">
                 <a
                   href="#"
                   className="product-dropdown-toggle forward"
                   id="product-menu-toggle-responsive"
                   data-trigger="product-responsive"
+                  onClick={onProductMenuClick}
                 >
                   Products<span className="account-ahead-caret"></span>
                   <div className="product-menu-animator" />
@@ -58,6 +81,7 @@ function Header({ data: header }) {
                   className="product-dropdown-toggle forward"
                   id="product-menu-toggle-responsive"
                   data-trigger="developers-responsive"
+                  onClick={onDeveloperMenuClick}
                 >
                   Developers<span className="account-ahead-caret"></span>
                 </a>
@@ -68,274 +92,44 @@ function Header({ data: header }) {
               <li className="hide-md hide-lg hide-xl">
                 <a href="https://local.bsstag.com/pricing?product=live">Pricing</a>
               </li>
-              {header.mainNav.map(({ label, link, subMenu }) => {
-                if (label === 'Products' || label === 'Developers') {
-                  return (
-                    <li className="dropdown-holder hide-sm hide-xs" key={label}>
-                      <a
-                        href="#"
-                        className="product-dropdown-toggle dropdown-toggle"
-                        id="product-menu-toggle"
-                        data-target={`${label}-menu-dropdown`}
-                      >
-                        {label}
-                        <span className="account-down-caret" />
-                        <div className="product-menu-animator" />
-                      </a>
-                      {label === 'Products' && <ProductSubMenu subMenu={subMenu} />}
-                      {label === 'Developers' && <DeveloperSubMenu subMenu={subMenu} />}
-                    </li>
-                  );
-                } else if (label === 'FREE TRIAL') {
-                  return (
-                    <li className="free-trial-link" key={label}>
-                      <a className="btn-secondary-white btn-md" href="/users/sign_up">
-                        Free Trial
-                      </a>
-                    </li>
-                  );
-                } else if (label === 'Search') {
-                  return (
-                    <li className="no-btn icon-only" key={label}>
-                      <a className="doc-search-cta doc-search-menu-icon" id="doc-menu-toggle"></a>
-                    </li>
-                  );
-                }
-                return (
-                  <li className="hide-sm hide-xs" key={label}>
-                    <a href={link}>{label}</a>
-                  </li>
-                );
-              })}
-              {/* <li className="dropdown-holder hide-sm hide-xs">
-                <a
-                  href="#"
-                  className="product-dropdown-toggle dropdown-toggle "
-                  data-target="product-menu-dropdown"
-                  id="product-menu-toggle"
-                >
-                  Products<span className="account-down-caret"></span>
-                </a>
-                <ul
-                  className="product-menu-dropdown dropdown-menu text-center live_testing_menu"
-                  id="product-menu-dropdown"
-                >
-                  <div className="row">
-                    <div className="col-xs-10">
-                      <ul className="dropdown-section col-xs-5">
-                        <li className="section-head">
-                          <span className="product-type">Test your websites</span>
-                        </li>
-                        <li>
-                          <a className="header-dropdown-item" data-product="Live" href="https://local.bsstag.com/live">
-                            <svg width="45" height="40" className="product-icon">
-                              <use href="#live-icon" />
-                            </svg>
-                            <div className="dropdown-link-heading">Live</div>
-                            <div className="dropdown-link-text">Interactive cross browser testing</div>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className="header-dropdown-item"
-                            data-product="Automate"
-                            href="https://local.bsstag.com/automate"
-                          >
-                            <svg width="45" height="40" className="product-icon">
-                              <use href="#automate-icon" />
-                            </svg>
-                            <div className="dropdown-link-heading">Automate</div>
-                            <div className="dropdown-link-text">Selenium testing at scale</div>
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-dropdown-item" data-product="Percy" href="/percy">
-                            <svg width="45" height="40" className="product-icon">
-                              <use href="#percy-icon" />
-                            </svg>
-                            <div className="dropdown-link-heading">
-                              Percy
-                              <span className="btn-badge btn-primary">New</span>
-                            </div>
-                            <div className="dropdown-link-text">Visual testing &amp; review</div>
-                          </a>
-                        </li>
-                      </ul>
-                      <ul className="dropdown-section col-xs-7">
-                        <li className="section-head">
-                          <span className="product-type">Test your mobile apps</span>
-                        </li>
-                        <li>
-                          <a
-                            className="header-dropdown-item"
-                            data-product="App Live"
-                            href="https://local.bsstag.com/app-live"
-                          >
-                            <svg width="45" height="40" className="product-icon">
-                              <use href="#app-live-icon"></use>
-                            </svg>
-                            <div className="dropdown-link-heading">App Live</div>
-                            <div className="dropdown-link-text">Interactive native &amp; hybrid app testing</div>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className="header-dropdown-item"
-                            data-product="App Automate"
-                            href="https://local.bsstag.com/app-automate"
-                          >
-                            <svg width="45" height="40" className="product-icon">
-                              <use href="#app-automate-icon"></use>
-                            </svg>
-                            <div className="dropdown-link-heading">App Automate</div>
-                            <div className="dropdown-link-text">
-                              Test automation for native &amp; hybrid mobile apps
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                      <div className="row product-menu-footer">
-                        <div className="col-xs-12">
-                          <p>
-                            Use BrowserStack with your favourite products. See our{' '}
-                            <a href="https://local.bsstag.com/integrations">
-                              <b>Integrations</b> ⟶
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xs-2">
-                      <ul className="dropdown-section tools">
-                        <li className="section-head section-head-new enterprise-section-head">
-                          <span className="product-type">For Teams</span>
-                        </li>
-                        <li>
-                          <a className="tools" href="https://local.bsstag.com/enterprise">
-                            Enterprise
-                          </a>
-                        </li>
-                        <li className="section-head section-head-new tools-section-head">
-                          <span className="product-type">Tools</span>
-                        </li>
-                        <li>
-                          <a className="tools" href="https://local.bsstag.com/screenshots">
-                            Screenshots
-                          </a>
-                        </li>
-                        <li>
-                          <a className="tools" href="https://local.bsstag.com/responsive">
-                            Responsive
-                          </a>
-                        </li>
-                        <li>
-                          <a className="tools" href="https://local.bsstag.com/speedlab">
-                            SpeedLab
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </ul>
-              </li>
-              <li className="dropdown-holder hide-sm hide-xs">
-                <a
-                  href="#"
-                  className="dev-dropdown-toggle dropdown-toggle"
-                  data-target="dev-menu-dropdown"
-                  id="dev-menu-toggle"
-                >
-                  <span className="nav_item_name">
-                    Developers <span className="dev-down-caret"></span>
-                  </span>
-                </a>
-
-                <ul className="dropdown-menu dev-dropdown-menu" id="dev-menu-dropdown">
-                  <li>
-                    <a href="https://local.bsstag.com/docs">Documentation</a>
-                  </li>
-                  <li>
-                    <a data-href="https://local.bsstag.com/support" href="https://local.bsstag.com/support">
-                      Support
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://status.browserstack.com">Status</a>
-                  </li>
-                  <li>
-                    <a href="https://local.bsstag.com/release-notes">Release Notes</a>
-                  </li>
-                  <li>
-                    <a href="https://local.bsstag.com/open-source">Open Source</a>
-                  </li>
-                  <li>
-                    <a href="https://local.bsstag.com/events">Events</a>
-                  </li>
-                </ul>
-              </li>
-              <li className="hide-sm hide-xs">
-                <a href="https://local.bsstag.com/live-for-teams">Live for Teams</a>
-              </li>
-              <li className="hide-sm hide-xs">
-                <a href="https://local.bsstag.com/pricing?product=live">Pricing</a>
-              </li>
-              <li>
-                <a href="https://local.bsstag.com/users/sign_in">Sign in</a>
-              </li>
-
-              <li className="free-trial-link">
-                <a className="btn-secondary-white btn-md" href="https://local.bsstag.com/users/sign_up">
-                  Free Trial
-                </a>
-              </li>
-              <li className="no-btn icon-only">
-                <a className="doc-search-cta doc-search-menu-icon" id="doc-menu-toggle"></a>
-              </li> */}
+              <DesktopMenu header={header} />
             </ul>
 
             <ul
-              className="product-menu-dropdown-responsive mobile-dropdown-menu dropdown-section col-xs-12 no-pad hide clear primary hide-md hide-lg hide-xl"
+              className={`product-menu-dropdown-responsive mobile-dropdown-menu dropdown-section col-xs-12 no-pad clear primary hide-md hide-lg hide-xl ${
+                activeOpenMobileMenu === activeTabs.PRODUCT ? '' : 'hide'
+              }`}
               data-target="product-responsive"
             >
-              <li className="section-title back" data-target="primary">
+              <li
+                className="section-title back"
+                data-target="primary"
+                onClick={() => setActiveOpenMobileMenu(activeTabs.NONE)}
+              >
                 <span className="account-behind-caret"></span>Products
               </li>
               <li className="section-head">
                 <span className="product-type">Test your websites</span>
               </li>
-              <li>
-                <a className="header-dropdown-item" href="https://local.bsstag.com/live">
-                  <div className="dropdown-link-heading">Live</div>
-                  <div className="dropdown-link-text">Interactive cross browser testing</div>
-                </a>
-              </li>
-              <li>
-                <a className="header-dropdown-item" href="https://local.bsstag.com/automate">
-                  <div className="dropdown-link-heading">Automate</div>
-                  <div className="dropdown-link-text">Selenium testing at scale</div>
-                </a>
-              </li>
-              <li>
-                <a className="header-dropdown-item" href="/percy">
-                  <div className="dropdown-link-heading">Percy</div>
-                  <div className="dropdown-link-text">Visual testing &amp; review</div>
-                </a>
-              </li>
+              {header.mainNav[0].subMenu.website.menus.map(({ label, subLabel, link }) => (
+                <li>
+                  <a className="header-dropdown-item" href={link}>
+                    <div className="dropdown-link-heading">{label}</div>
+                    <div className="dropdown-link-text">{subLabel}</div>
+                  </a>
+                </li>
+              ))}
               <li className="section-head">
                 <span className="product-type">Test your mobile apps</span>
               </li>
-              <li>
-                <a className="header-dropdown-item" href="https://local.bsstag.com/app-live">
-                  <div className="dropdown-link-heading">App Live</div>
-                  <div className="dropdown-link-text">Interactive native &amp; hybrid app testing</div>
-                </a>
-              </li>
-              <li>
-                <a className="header-dropdown-item" href="https://local.bsstag.com/app-automate">
-                  <div className="dropdown-link-heading">App Automate</div>
-                  <div className="dropdown-link-text">Test automation for native &amp; hybrid mobile apps</div>
-                </a>
-              </li>
+              {header.mainNav[0].subMenu.app.menus.map(({ label, subLabel, link }) => (
+                <li>
+                  <a className="header-dropdown-item" href={link}>
+                    <div className="dropdown-link-heading">{label}</div>
+                    <div className="dropdown-link-text">{subLabel}</div>
+                  </a>
+                </li>
+              ))}
               <li className="section-head section-head-new enterprise-section-head">
                 <span className="product-type">For Teams</span>
               </li>
@@ -347,73 +141,33 @@ function Header({ data: header }) {
               <li className="section-head">
                 <span className="product-type">Tools</span>
               </li>
-              <li>
-                <a className="tools" href="https://local.bsstag.com/screenshots">
-                  Screenshots
-                </a>
-              </li>
-              <li>
-                <a className="tools" href="https://local.bsstag.com/responsive">
-                  Responsive
-                </a>
-              </li>
-              <li>
-                <a className="tools" href="https://local.bsstag.com/speedlab">
-                  SpeedLab
-                </a>
-              </li>
+              {header.mainNav[0].subMenu.tools.menus.map(({ label, link }) => (
+                <li>
+                  <a className="tools" href={link}>
+                    {label}
+                  </a>
+                </li>
+              ))}
             </ul>
 
             <ul
-              className="developers-menu-dropdown-responsive mobile-dropdown-menu dropdown-section col-xs-12 no-pad hide clear primary hide-md hide-lg hide-xl"
+              className={`developers-menu-dropdown-responsive mobile-dropdown-menu dropdown-section col-xs-12 no-pad clear primary hide-md hide-lg hide-xl ${
+                activeOpenMobileMenu === activeTabs.DEVELOPER ? '' : 'hide'
+              }`}
               data-target="developers-responsive"
             >
-              <li className="section-title back" data-target="primary">
+              <li
+                className="section-title back"
+                data-target="primary"
+                onClick={() => setActiveOpenMobileMenu(activeTabs.NONE)}
+              >
                 <span className="account-behind-caret"></span>Developers
               </li>
-              <li>
-                <a href="https://local.bsstag.com/docs">Documentation</a>
-              </li>
-              <li>
-                <a href="https://local.bsstag.com/support">Support</a>
-              </li>
-              <li>
-                <a href="https://status.browserstack.com">Status</a>
-              </li>
-              <li>
-                <a href="https://local.bsstag.com/release-notes">Release Notes</a>
-              </li>
-              <li>
-                <a href="https://local.bsstag.com/open-source">Open Source</a>
-              </li>
-              <li>
-                <a href="https://local.bsstag.com/events">Events</a>
-              </li>
-            </ul>
-
-            <ul
-              className="help-menu-dropdown-responsive mobile-dropdown-menu dropdown-section col-xs-12 no-pad hide clear primary hide-md hide-lg hide-xl"
-              data-target="help-responsive"
-            >
-              <li className="section-title back" data-target="primary">
-                <span className="account-behind-caret"></span>Get help
-              </li>
-              <li className="section-head">
-                <span className="product-type">Documentation</span>
-              </li>
-              <li>
-                <a className="" href="https://local.bsstag.com/speedlab/guide">
-                  SpeedLab
-                </a>
-              </li>
-              <li className="section-head">
-                <span className="product-type">References</span>
-              </li>
-              <li>
-                <a className="" href="https://www.w3.org/TR/navigation-timing-2/">
-                  Navigation Timing API
-                </a>
-              </li>
+              {header.mainNav[1].subMenu.map(({ label, link }) => (
+                <li>
+                  <a href={link}>{label}</a>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
